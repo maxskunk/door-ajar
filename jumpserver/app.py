@@ -11,7 +11,8 @@ from flask_restful import Api
 # from resources.toybox import Toybox
 # from resources.badge import AvailableBadge, AvailableBadgeList
 # from resources.badge_instance import BadgeInstanceList, BadgeInstance
-#from db import db
+from resources.open_door import Disco, TEST
+from db import db
 
 
 app = Flask(__name__)
@@ -46,6 +47,8 @@ def create_tables():
 # Badges
 # api.add_resource(BadgeInstanceList, '/sash')
 # api.add_resource(BadgeInstance, '/badge')
+    api.add_resource(Disco, '/disco')
+    api.add_resource(TEST, '/test')
 
 
 @app.after_request
@@ -61,6 +64,7 @@ if __name__ == '__main__':
     from db import db
     
     db.init_app(app)
-    app.run(port=5000, debug=True)
+    app.run(port=5000, debug=True,host='0.0.0.0')
+    # app.run(port=5000, debug=True)
 
-    # app.run(port=5000, debug=True,host='0.0.0.0')
+    # # 
