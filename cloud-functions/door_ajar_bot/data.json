@@ -1,0 +1,42 @@
+{
+    "update_id": 435322224,
+    "callback_query": {
+        "id": "965068467409998240",
+        "from": {
+            "id": 224697512,
+            "is_bot": false,
+            "first_name": "Max",
+            "last_name": "Chameleon",
+            "username": "Max_Chameleon",
+            "language_code": "en"
+        },
+        "message": {
+            "message_id": 40,
+            "from": {
+                "id": 918952573,
+                "is_bot": true,
+                "first_name": "Door Ajar",
+                "username": "Doorajar_bot"
+            },
+            "chat": {
+                "id": 224697512,
+                "first_name": "Max",
+                "last_name": "Chameleon",
+                "username": "Max_Chameleon",
+                "type": "private"
+            },
+            "date": 1565748144,
+            "text": "Hello ${message.from.first_name} ${message.from.last_name}! Fun: Hello",
+            "reply_markup": {
+                "inline_keyboard": [
+                    [{
+                        "text": "Open Door",
+                        "callback_data": "open-door"
+                    }]
+                ]
+            }
+        },
+        "chat_instance": "8523804052814245900",
+        "data": "open-door"
+    }
+}
