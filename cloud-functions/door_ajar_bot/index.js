@@ -1,12 +1,7 @@
 const http = require('http');
 const axios = require('axios');
 
-//const localconf =  require('./local.js');
-//const buttons ={
-//  'keyboard':['A','B'],
-//  'resize_keybaord': true,
-//  'one_time_keybaord':true
-//}
+
 exports.helloBot = (req, res) => {
   console.log("CALL BACK" + JSON.stringify(req.body));
 
@@ -55,20 +50,25 @@ exports.helloBot = (req, res) => {
   const callToken = req.path;
   //Entry Point
   if (req.body.callback_query && callToken !== 'helloBot') {
+    const message = req.body.callback_query.message;
     const options = {
-      greetings: "COMMAND RECIEVED: "+req.path,
-      chatId: req.body.callback_query.message.chat.id
+      greetings: "Opening the door for ya now, " + message.chat.first_name + "! Give it just a second.",
+      chatId: message.chat.id
     };
     sendMessage(options);
   } else if (callToken !== 'helloBot') {
     const message = req.body.message;
-    message.text
-    const options = {
-      greetings: "When you have arrived at the gate, Press the button below to open it PLEASE do not press the button until you are here and ready to enter",
-      chatId: message.chat.id
-    };
+    if (message.text === "/generate_button") {
+      const options = {
+        greetings: "When you have arrived at the gate, Press the button below to open it PLEASE do not press the button until you are here and ready to enter",
+        chatId: message.chat.id
+      };
+      sendKeyboard(options);
+    } else {
+      res.send({ status: 'OK' });
+    }
 
-    sendKeyboard(options);
+
   } else {
     res.sendStatus(403);
   }
