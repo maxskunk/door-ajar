@@ -1,5 +1,6 @@
 const http = require('http');
 const axios = require('axios');
+const request = require('request');
 
 
 exports.helloBot = (req, res) => {
@@ -51,19 +52,60 @@ exports.helloBot = (req, res) => {
   //Entry Point
   if (req.body.callback_query && callToken !== 'helloBot') {
     const message = req.body.callback_query.message;
-    const options = {
-      greetings: "Opening the door for ya now, " + message.chat.first_name + "! Give it just a second.",
-      chatId: message.chat.id
-    };
-    sendMessage(options);
+    if (message.chat.type === "private") {
+      res.send({ status: 'OK' });
+    } else {
+      const dak = process.env.DOOR_ACCESS_KEY;
+      let url = "https://us-central1-zokya-media.cloudfunctions.net/dooraccess?key=" + dak; //or production  
+      request.post({
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        url: url
+      }, (error, response, body) => {
+        if (error) {
+          const options = {
+            greetings: "Shit Something went wrong: " + JSON.stringify(response),
+            chatId: message.chat.id
+          };
+          sendMessage(options);
+        } else {
+          const statusCode = response.statusCode;
+          if (statusCode === 401) {
+            const options = {
+              greetings: req.body.callback_query.from.first_name+", Unfortunatly that button seems to be invalid, Perhaps it is expired? Better talk to Max.",
+              chatId: message.chat.id
+            };
+            sendMessage(options);
+          } else if(statusCode === 200) {
+            const options = {
+              greetings: "Opening the door for you now, " + req.body.callback_query.from.first_name + "! Give it just a second.",
+              chatId: message.chat.id
+            };
+            sendMessage(options);
+          } else {
+            const options = {
+              greetings: "Something rather unexpected happened, Better talk to Max."+JSON.stringify(response),
+              chatId: message.chat.id
+            };
+            sendMessage(options);
+          }
+        }
+      });
+    }
+
   } else if (callToken !== 'helloBot') {
     const message = req.body.message;
     if (message.text === "/generate_button") {
-      const options = {
-        greetings: "When you have arrived at the gate, Press the button below to open it PLEASE do not press the button until you are here and ready to enter",
-        chatId: message.chat.id
-      };
-      sendKeyboard(options);
+      if (message.chat.type === "private") {
+        res.send({ status: 'OK' });
+      } else {
+        const options = {
+          greetings: "***ATTENTION*** PLEASE do not press the button until you are in-front of the gate and ready to enter! When you have arrived at the gate, Press the button below to open it.",
+          chatId: message.chat.id
+        };
+        sendKeyboard(options);
+      }
     } else {
       res.send({ status: 'OK' });
     }
