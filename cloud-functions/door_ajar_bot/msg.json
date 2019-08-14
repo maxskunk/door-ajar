@@ -1,0 +1,23 @@
+{
+    "update_id": 435322225,
+    "message": {
+        "message_id": 41,
+        "from": {
+            "id": 224697512,
+            "is_bot": false,
+            "first_name": "Max",
+            "last_name": "Chameleon",
+            "username": "Max_Chameleon",
+            "language_code": "en"
+        },
+        "chat": {
+            "id": 224697512,
+            "first_name": "Max",
+            "last_name": "Chameleon",
+            "username": "Max_Chameleon",
+            "type": "private"
+        },
+        "date": 1565748478,
+        "text": "Poop"
+    }
+}
