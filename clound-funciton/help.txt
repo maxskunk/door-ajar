@@ -1,3 +1,0 @@
-https://medium.com/@hiranya911/firebase-using-the-python-admin-sdk-on-google-cloud-functions-590f50226286
-
-https://code.luasoftware.com/tutorials/google-cloud-firestore/setup-firestore-on-cloud-functions/
