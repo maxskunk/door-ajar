@@ -83,6 +83,12 @@ exports.helloBot = (req, res) => {
               chatId: message.chat.id
             };
             sendMessage(options);
+          } else if(statusCode === 500) {
+            const options = {
+              greetings: "Sorry " + req.body.callback_query.from.first_name + ", it appears we lost connection to the local switcher. Better Tell Max!",
+              chatId: message.chat.id
+            };
+            sendMessage(options);
           } else {
             const options = {
               greetings: "Something rather unexpected happened, Better talk to Max."+JSON.stringify(response),

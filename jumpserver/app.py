@@ -20,7 +20,7 @@ async def hello(request):
 
 async def run_client():
     print("RUNNING IT")
-    async with asyncssh.connect('75.71.20.33', 2222, username='pi', known_hosts=None, PASSWORD,) as conn:
+    async with asyncssh.connect('75.71.20.33', 2222, username='pi', known_hosts=None, password=NO_THANKS) as conn:
         result = await conn.run('python doorajar/switcher.py', check=True)
         #DvyN4RG^s6
         print(result.stdout, end='')
