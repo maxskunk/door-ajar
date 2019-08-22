@@ -73,17 +73,23 @@ exports.helloBot = (req, res) => {
           const statusCode = response.statusCode;
           if (statusCode === 401) {
             const options = {
-              greetings: req.body.callback_query.from.first_name+", Unfortunatly that button seems to be invalid, Perhaps it is expired? Better talk to Max.",
+              greetings: req.body.callback_query.from.first_name + ", Unfortunatly that button seems to be invalid, Perhaps it is expired? Better talk to Max.",
               chatId: message.chat.id
             };
             sendMessage(options);
-          } else if(statusCode === 200) {
+          } else if (statusCode === 412) {
+            const options = {
+              greetings: req.body.callback_query.from.first_name + ", This key is not valid yet! Are you trying to sneak in early?",
+              chatId: message.chat.id
+            };
+            sendMessage(options);
+          } else if (statusCode === 200) {
             const options = {
               greetings: "Opening the door for you now, " + req.body.callback_query.from.first_name + "! Give it just a second.",
               chatId: message.chat.id
             };
             sendMessage(options);
-          } else if(statusCode === 500) {
+          } else if (statusCode === 500) {
             const options = {
               greetings: "Sorry " + req.body.callback_query.from.first_name + ", it appears we lost connection to the local switcher. Better Tell Max!",
               chatId: message.chat.id
@@ -91,7 +97,7 @@ exports.helloBot = (req, res) => {
             sendMessage(options);
           } else {
             const options = {
-              greetings: "Something rather unexpected happened, Better talk to Max."+JSON.stringify(response),
+              greetings: "Something rather unexpected happened, Better talk to Max." + JSON.stringify(response),
               chatId: message.chat.id
             };
             sendMessage(options);
