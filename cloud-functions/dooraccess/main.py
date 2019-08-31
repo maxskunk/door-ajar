@@ -8,6 +8,7 @@ from firebase_admin import firestore
 from datetime import datetime
 import pytz
 import os
+import json
 # from flask import jsonify
 
 utc = pytz.UTC
@@ -85,7 +86,7 @@ def test_firestore(request):
     if verdict:
         try:
             asyncio.run(trigger_switcher())
-            return ('Success', 200, headers)
+            return (json.dumps({'test': 'ok'}), 200, headers)
         except Exception as e:
             return ('Error Contacting Switcher', 500, e)
     else:
