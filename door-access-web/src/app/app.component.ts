@@ -10,10 +10,10 @@ export class AppComponent {
   public title = 'door-access-web';
 
   constructor(private doorAjarSvc: DoorAjarService) { };
-
+  // c5926552bec6fdd7ebfdbdc2a0d5ec5c8f0f17047e9578b908ec5be7
   attemptOpen() {
     console.log("TEST");
-    this.doorAjarSvc.openSesame("e223dc007d659adc8ddfcc67a1fc555c645dcec57ce691022df52f8c602504be").subscribe((data: any) => {
+    this.doorAjarSvc.openSesame("c5926552bec6fdd7ebfdbdc2a0d5ec5c8f0f17047e9578b908ec5be7").subscribe((data: any) => {
       console.log("SUCCESS");
     });
 

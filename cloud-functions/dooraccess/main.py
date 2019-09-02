@@ -37,30 +37,6 @@ async def run_client():
 
 
 def test_firestore(request):
-    request_json = request.get_json(silent=True)
-    request_args = request.args
-
-    if request_json and 'key' in request_json:
-        key = request_json['key']
-    elif request_args and 'key' in request_args:
-        key = request_args['key']
-    else:
-        key = None
-    docs = db.collection(u'valid_door_keys').where(u'key', u'==', key).stream()
-    verdict = False
-    for doc in docs:
-        verdict = doc.to_dict()['key'] == key
-        if verdict:
-            now = datetime.now()
-            print("TEST: " + str(doc.to_dict()))
-            expired = doc.to_dict()['expiration'].replace(
-                tzinfo=utc) < now.replace(tzinfo=utc)
-            not_valid = doc.to_dict()['inception'].replace(
-                tzinfo=utc) > now.replace(tzinfo=utc)
-            if not_valid:
-                return ('Key Not Valid Yet', 412)
-            if expired:
-                return ('Key Expired', 401)
 
     # For more information about CORS and CORS preflight requests, see
     # https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
@@ -83,11 +59,36 @@ def test_firestore(request):
         'Access-Control-Allow-Origin': '*'
     }
 
+    request_json = request.get_json(silent=True)
+    request_args = request.args
+
+    if request_json and 'key' in request_json:
+        key = request_json['key']
+    elif request_args and 'key' in request_args:
+        key = request_args['key']
+    else:
+        key = None
+    docs = db.collection(u'valid_door_keys').where(u'key', u'==', key).stream()
+    verdict = False
+    for doc in docs:
+        verdict = doc.to_dict()['key'] == key
+        if verdict:
+            now = datetime.now()
+            print("TEST: " + str(doc.to_dict()))
+            expired = doc.to_dict()['expiration'].replace(
+                tzinfo=utc) < now.replace(tzinfo=utc)
+            not_valid = doc.to_dict()['inception'].replace(
+                tzinfo=utc) > now.replace(tzinfo=utc)
+            if not_valid:
+                return (json.dumps({'msg': 'Key not yet valid'}), 412, headers)
+            if expired:
+                return (json.dumps({'msg': 'Key Expired'}), 401, headers)
+
     if verdict:
         try:
             asyncio.run(trigger_switcher())
-            return (json.dumps({'test': 'ok'}), 200, headers)
+            return (json.dumps({'msg': 'Send success'}), 200, headers)
         except Exception as e:
-            return ('Error Contacting Switcher', 500, e)
+            return (json.dumps({'msg': 'Could Not Contact Switcher: '+e}), 500, headers)
     else:
-        return ('Incorrect Key', 401, headers)
+        return (json.dumps({'msg': 'Incorrect key'}), 401, headers)
