@@ -1,1 +1,17 @@
-<button class="myButton" (click)="attemptOpen()">Open The Gate</button>
+<div class="img-container">
+  <img *ngIf="!isError && serviceInFlight" style="height: 300px" src="./assets/hud.svg">
+  <img *ngIf="!isError && !serviceInFlight" src="./assets/logo.png">
+  <img *ngIf="isError" src="./assets/warning.png">
+</div>
+<div class="btn-container">
+  <button class="myButton" [ngClass]="{'disabled': serviceInFlight}" (click)="attemptOpen()">
+    <ng-container *ngIf="!serviceInFlight">Open The Gate</ng-container>
+    <ng-container *ngIf="serviceInFlight">Sending Signal...</ng-container>
+  </button>
+</div>
+<div class="info-container">
+  <ng-container *ngIf="!serviceInFlight">{{message}}</ng-container>
+  <ng-container *ngIf="serviceInFlight">Opening the door for you now, give it just a second!</ng-container>
+  <!-- <ng-container *ngIf="isError">{{message}}</ng-container> -->
+
+</div>

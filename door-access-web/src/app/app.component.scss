@@ -1,40 +1,82 @@
-
 .myButton {
-	-moz-box-shadow:inset 0px 1px 0px 0px #cf866c;
-	-webkit-box-shadow:inset 0px 1px 0px 0px #cf866c;
-	box-shadow:inset 0px 1px 0px 0px #cf866c;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #d0451b), color-stop(1, #bc3315));
-	background:-moz-linear-gradient(top, #d0451b 5%, #bc3315 100%);
-	background:-webkit-linear-gradient(top, #d0451b 5%, #bc3315 100%);
-	background:-o-linear-gradient(top, #d0451b 5%, #bc3315 100%);
-	background:-ms-linear-gradient(top, #d0451b 5%, #bc3315 100%);
-	background:linear-gradient(to bottom, #d0451b 5%, #bc3315 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d0451b', endColorstr='#bc3315',GradientType=0);
-	background-color:#d0451b;
-	-moz-border-radius:3px;
-	-webkit-border-radius:3px;
-	border-radius:3px;
-	border:2px solid #942911; 
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Verdana;
-	font-size:17px;
-	padding:10px 24px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #854629;
+  -moz-box-shadow: inset 0px 1px 0px 0px #cf866c;
+  -webkit-box-shadow: inset 0px 1px 0px 0px #cf866c;
+  box-shadow: inset 0px 1px 0px 0px #cf866c;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #d0451b), color-stop(1, #bc3315));
+  background: -moz-linear-gradient(top, #d0451b 5%, #bc3315 100%);
+  background: -webkit-linear-gradient(top, #d0451b 5%, #bc3315 100%);
+  background: -o-linear-gradient(top, #d0451b 5%, #bc3315 100%);
+  background: -ms-linear-gradient(top, #d0451b 5%, #bc3315 100%);
+  background: linear-gradient(to bottom, #d0451b 5%, #bc3315 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d0451b', endColorstr='#bc3315', GradientType=0);
+  background-color: #d0451b;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  border: 2px solid #942911;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Verdana;
+  font-size: 17px;
+  padding: 10px 24px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #854629;
 }
+
 .myButton:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #bc3315), color-stop(1, #d0451b));
-	background:-moz-linear-gradient(top, #bc3315 5%, #d0451b 100%);
-	background:-webkit-linear-gradient(top, #bc3315 5%, #d0451b 100%);
-	background:-o-linear-gradient(top, #bc3315 5%, #d0451b 100%);
-	background:-ms-linear-gradient(top, #bc3315 5%, #d0451b 100%);
-	background:linear-gradient(to bottom, #bc3315 5%, #d0451b 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#bc3315', endColorstr='#d0451b',GradientType=0);
-	background-color:#bc3315;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #bc3315), color-stop(1, #d0451b));
+  background: -moz-linear-gradient(top, #bc3315 5%, #d0451b 100%);
+  background: -webkit-linear-gradient(top, #bc3315 5%, #d0451b 100%);
+  background: -o-linear-gradient(top, #bc3315 5%, #d0451b 100%);
+  background: -ms-linear-gradient(top, #bc3315 5%, #d0451b 100%);
+  background: linear-gradient(to bottom, #bc3315 5%, #d0451b 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#bc3315', endColorstr='#d0451b', GradientType=0);
+  background-color: #bc3315;
 }
+
 .myButton:active {
-	position:relative;
-	top:1px;
+  position: relative;
+  top: 1px;
+}
+
+.myButton.disabled {
+  color: lightgray;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ad8b81), color-stop(1, #46261c));
+  background: -moz-linear-gradient(top, #ad8b81 5%, #46261c 100%);
+  background: -webkit-linear-gradient(top, #ad8b81 5%, #46261c 100%);
+  background: -o-linear-gradient(top, #ad8b81 5%, #46261c 100%);
+  background: -ms-linear-gradient(top, #ad8b81 5%, #46261c 100%);
+  background: linear-gradient(to bottom, #ad8b81 5%, #46261c 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ad8b81', endColorstr='#46261c', GradientType=0);
+  background-color: #ad8b81;
+}
+
+.btn-container {
+  text-align: center;
+}
+
+.img-container {
+  text-align: center;
+  margin-bottom: 8px;
+
+  img {
+    max-width: 100%;
+    max-height: 300px;
+  }
+}
+
+.info-container {
+  background-color: white;
+  width: 80%;
+  text-align: center;
+  margin: auto;
+  margin-top: 20px;
+  //   height: 150px;
+  opacity: 0.5;
+  border-radius: 7px;
+  border-style: groove;
+  border: black 12px;
+  padding: 28px;
+  font-weight: 800;
 }

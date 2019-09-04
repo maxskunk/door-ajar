@@ -26,10 +26,11 @@ export class DoorAjarService {
       .pipe(
         tap( // Log the result or error
           data => {
-            console.log("SUCCESS")
-            return data
+            return data;
           },
-          error => { console.log("test: " + JSON.stringify(error)) }
+          error => {
+            return error;
+          }
         )
       )
   }
