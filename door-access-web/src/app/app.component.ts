@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DoorAjarService } from './services/door-ajar.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,15 +11,31 @@ export class AppComponent {
   public title = 'door-access-web';
   public serviceInFlight: boolean = false;
   public isError: boolean = false;
-  public message: string = "PLEASE do not press the button until you are in-front of the gate and ready to enter! When you have arrived at the gate, Press the button above to open it.";
+  public key: string = null;
+  public message: string;
 
-  constructor(private doorAjarSvc: DoorAjarService) { };
+  constructor(private doorAjarSvc: DoorAjarService, private route: ActivatedRoute) {
+    console.log('Called Constructor');
+    this.route.queryParams.subscribe(params => {
+      this.key = params['doorkey'];
+      console.log("KEY: " + this.key)
+      if (!this.key) {
+        this.isError = true;
+        this.message = "No Key Provided. Please Request a new link.";
+      } else {
+        this.isError = false;
+        this.message = "PLEASE do not press the button until you are in-front of the gate and ready to enter! When you have arrived at the gate, Press the button above to open it.";
+      }
+    });
+  }
+
+  // constructor(private doorAjarSvc: DoorAjarService) { };
   // c5926552bec6fdd7ebfdbdc2a0d5ec5c8f0f17047e9578b908ec5be7
   attemptOpen() {
     this.serviceInFlight = true;
     this.isError = false
 
-    this.doorAjarSvc.openSesame("c5926552bec6fdd7ebfdbdc2a0d5ec5c8f0f17047e9578b908ec5be7").subscribe((res: any) => {
+    this.doorAjarSvc.openSesame(this.key).subscribe((res: any) => {
       this.serviceInFlight = false;
       this.message = "Success! If the door isn't opening then something has gone wrong and it's not on your end!";
     }, (err: any) => {
@@ -27,9 +44,9 @@ export class AppComponent {
 
       // Invalid Key
       if (err.status === 401) {
-        this.message = "Key is invalid! Maybe you are early?";
+        this.message = "Key is invalid! Maybe it has expired?";
         if (err && err.error && err.error.msg) {
-          this.message = this.message + " " + err.error.msg;
+          this.message = this.message + " Message from server: " + err.error.msg;
         }
       } else if (err.status === 401) {
         this.message = "Looks Like There is An Invalid Key";

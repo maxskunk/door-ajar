@@ -4,7 +4,7 @@
   <img *ngIf="isError" src="./assets/warning.png">
 </div>
 <div class="btn-container">
-  <button class="myButton" [ngClass]="{'disabled': serviceInFlight}" (click)="attemptOpen()">
+  <button *ngIf="key" class="myButton" [ngClass]="{'disabled': serviceInFlight}" (click)="attemptOpen()">
     <ng-container *ngIf="!serviceInFlight">Open The Gate</ng-container>
     <ng-container *ngIf="serviceInFlight">Sending Signal...</ng-container>
   </button>
