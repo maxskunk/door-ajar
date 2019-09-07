@@ -73,6 +73,10 @@ def test_firestore(request):
         wakeup = request_json['wakeup']
     elif request_args and 'wakeup' in request_args:
         wakeup = request_args['wakeup']
+        if wakeup == "True" or wakeup == "true":
+            wakeup = True
+        else:
+            wakeup = False
     else:
         wakeup = False
 
