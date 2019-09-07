@@ -68,6 +68,14 @@ def test_firestore(request):
         key = request_args['key']
     else:
         key = None
+
+    if request_json and 'wakeup' in request_json:
+        wakeup = request_json['wakeup']
+    elif request_args and 'wakeup' in request_args:
+        wakeup = request_args['wakeup']
+    else:
+        wakeup = False
+
     docs = db.collection(u'valid_door_keys').where(u'key', u'==', key).stream()
     verdict = False
     for doc in docs:
@@ -85,9 +93,11 @@ def test_firestore(request):
                 return (json.dumps({'msg': 'Key Expired'}), 401, headers)
 
     if verdict:
+        if wakeup:
+            return (json.dumps({'msg': 'The Function is Now Awake'}), 200, headers)
         try:
             asyncio.run(trigger_switcher())
-            return (json.dumps({'msg': 'Send success'}), 200, headers)
+            return (json.dumps({'msg': 'Door Open Success'}), 200, headers)
         except Exception as e:
             return (json.dumps({'msg': 'Could Not Contact Switcher: '+e}), 500, headers)
     else:

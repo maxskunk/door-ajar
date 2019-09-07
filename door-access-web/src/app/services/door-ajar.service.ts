@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError, tap } from 'rxjs/operators';
 
@@ -10,7 +10,9 @@ import { retry, catchError, tap } from 'rxjs/operators';
 export class DoorAjarService {
 
   // Define API
-  apiURL = "https://us-central1-zokya-media.cloudfunctions.net/dooraccess?key=";
+  apiURL = "https://us-central1-zokya-media.cloudfunctions.net/dooraccess";
+
+  //https://us-central1-zokya-media.cloudfunctions.net/dooraccess?key=c5926552bec6fdd7ebfdbdc2a0d5ec5c8f0f17047e9578b908ec5be7&wakeup=True
 
   constructor(private http: HttpClient) { }
 
@@ -21,18 +23,21 @@ export class DoorAjarService {
   }
 
   // HttpClient API get() method => Fetch employee
-  openSesame(key): Observable<any> {
-    return this.http.get<any>(this.apiURL + key)
-      .pipe(
-        tap( // Log the result or error
-          data => {
-            return data;
-          },
-          error => {
-            return error;
-          }
-        )
+  openSesame(key, wakeup: Boolean = false): Observable<any> {
+    const wakeup_value = wakeup ? "True" : "False";
+    let params = new HttpParams();
+    params = params.append('key', key);
+    params = params.append('wakeup', wakeup_value);
+    return this.http.get<any>(this.apiURL, { params: params }).pipe(
+      tap( // Log the result or error
+        data => {
+          return data;
+        },
+        error => {
+          return error;
+        }
       )
+    )
   }
 
   // Error handling 

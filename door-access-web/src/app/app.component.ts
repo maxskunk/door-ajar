@@ -15,29 +15,40 @@ export class AppComponent {
   public message: string;
 
   constructor(private doorAjarSvc: DoorAjarService, private route: ActivatedRoute) {
-    console.log('Called Constructor');
     this.route.queryParams.subscribe(params => {
       this.key = params['doorkey'];
-      console.log("KEY: " + this.key)
       if (!this.key) {
         this.isError = true;
         this.message = "No Key Provided. Please Request a new link.";
       } else {
         this.isError = false;
         this.message = "PLEASE do not press the button until you are in-front of the gate and ready to enter! When you have arrived at the gate, Press the button above to open it.";
+        // Send Wakeup
+        this.attemptOpen(true);
       }
     });
   }
 
   // constructor(private doorAjarSvc: DoorAjarService) { };
   // c5926552bec6fdd7ebfdbdc2a0d5ec5c8f0f17047e9578b908ec5be7
-  attemptOpen() {
+  attemptOpen(wake: Boolean = false) {
     this.serviceInFlight = true;
     this.isError = false
 
-    this.doorAjarSvc.openSesame(this.key).subscribe((res: any) => {
+    if (wake) {
+      this.message = "Waking Up Door Function. May Take a Min"
+    } else {
+      this.message = "Opening the door for you now, give it just a second!"
+    }
+
+    this.doorAjarSvc.openSesame(this.key, wake).subscribe((res: any) => {
       this.serviceInFlight = false;
-      this.message = "Success! If the door isn't opening then something has gone wrong and it's not on your end!";
+      if (wake) {
+        this.message = "PLEASE do not press the button until you are in-front of the gate and ready to enter! When you have arrived at the gate, Press the button above to open it.";
+
+      } else {
+        this.message = "Success! If the door isn't opening then something has gone wrong and it's not on your end!";
+      }
     }, (err: any) => {
       this.serviceInFlight = false;
       this.isError = true;
