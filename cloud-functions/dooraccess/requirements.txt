@@ -1,5 +1,5 @@
 aiodns==2.0.0
-aiohttp==3.5.4
+aiohttp==3.7.4
 aniso8601==7.0.0
 antiorm==1.2.1
 asn1crypto==0.24.0
